@@ -98,11 +98,11 @@ export default function MainPane({text, sectionRef}) {
                     )) : (
                   <tr>
                     <td colSpan="2" className="px-4 py-2 text-center">
-                    <div class="flex items-center justify-center  p-5 min-w-screen">
-                      <div class="flex space-x-2 animate-pulse">
-                          <div class="w-3 h-3 bg-gray-500 rounded-full"></div>
-                          <div class="w-3 h-3 bg-gray-500 rounded-full"></div>
-                          <div class="w-3 h-3 bg-gray-500 rounded-full"></div>
+                    <div className="flex items-center justify-center p-5 min-w-screen">
+                      <div className="flex space-x-2 animate-pulse">
+                          <div className="w-3 h-3 bg-gray-500 rounded-full"></div>
+                          <div className="w-3 h-3 bg-gray-500 rounded-full"></div>
+                          <div className="w-3 h-3 bg-gray-500 rounded-full"></div>
                       </div>
                     </div>
                     </td>
