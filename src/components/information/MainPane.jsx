@@ -6,21 +6,25 @@ import L from "leaflet";
 import 'leaflet/dist/leaflet.css'
 import locationSvg from "../../assets/images/location.svg";
 
-export default function MainPane({text}) {
+export default function MainPane({text, sectionRef}) {
 
   const [data, setData] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [coordinate, setCoordinate] = useState([0.0, 0.0]);
+  const [coordinate, setCoordinate] = useState();
 
   // Fetch user IP on page load or handle search
   useEffect(() => {
     async function fetchData() {
       try {
         const data = await searchIP(text);
-        console.log("Fetched IP data:", data);
+        if (data && data.lat !== undefined && data.lon !== undefined) {
+          setCoordinate([data.lat, data.lon]);
+        } else {
+          console.error("Invalid data received:", data);
+          setCoordinate();
+        }
         setData(data);
-        setCoordinate([data.lat, data.lon]);
       } catch (error) {
+        setCoordinate();
         console.error("Error fetching IP data:", error);
       }
     }
@@ -65,18 +69,15 @@ export default function MainPane({text}) {
     function ChangeView({ center }) {
         const map = useMap();
         map.setView(center);
-      //   if (data.lat !== undefined && data.lon !== undefined) {
-      //     map.setView(center);
-      // }
         return null;
     }
   
   return (
-    <div className="bg-gray-50">
+    <div className="bg-gray-50" ref={sectionRef}>
         <div className="pt-12 text-3xl text-center font-QuicksandLight">
             <h3>IP Information</h3>
         </div>
-        <div className="grid w-full max-w-6xl gap-4 p-10 p-12 mx-auto md:grid-cols-2 md:item-center">
+        <div className={`grid w-full max-w-6xl gap-4 p-10 p-12 mx-auto ${!coordinate ? 'md:grid-cols-1' : 'md:grid-cols-2'} md:item-center`}>
           
           {/* IP information table */}
             <div className="w-full">
@@ -96,26 +97,36 @@ export default function MainPane({text}) {
                   </tr>
                     )) : (
                   <tr>
-                    <td colSpan="2" className="px-4 py-2 text-center">Loading...</td>
+                    <td colSpan="2" className="px-4 py-2 text-center">
+                    <div class="flex items-center justify-center  p-5 min-w-screen">
+                      <div class="flex space-x-2 animate-pulse">
+                          <div class="w-3 h-3 bg-gray-500 rounded-full"></div>
+                          <div class="w-3 h-3 bg-gray-500 rounded-full"></div>
+                          <div class="w-3 h-3 bg-gray-500 rounded-full"></div>
+                      </div>
+                    </div>
+                    </td>
                   </tr>
                 )}
                 </tbody>
               </table>
             </div>
+            {coordinate && (
             <div className="w-full">
-
               {/* Live map view */}
-                <MapContainer center={coordinate} zoom={7.5} scrollWheelZoom={false}>
-                      <ChangeView center={coordinate} />
+                <MapContainer center={coordinate || [0,0]} zoom={7.5} scrollWheelZoom={coordinate ? true : false}>
+                      <ChangeView center={coordinate || [0,0]}/>
                         <TileLayer
                           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
-                        <Marker position={coordinate}  icon={svgIcon}>
-                          
-                        </Marker>
+
+                        {coordinate && ( 
+                          <Marker position={coordinate}  icon={svgIcon}/>
+                        )}
                 </MapContainer>
             </div>
+            )}
         </div> 
     </div>
   )

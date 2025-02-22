@@ -3,7 +3,7 @@ import { Disclosure, DisclosureButton, DisclosurePanel} from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
 const navigation = [
-  { name: 'How does it work?', refKey: "howItWorksRef", current: false },
+  { name: 'FAQ', refKey: "howItWorksRef", current: false },
   { name: 'About', refKey: "contributeRef", current: false },
 ]
 
@@ -31,11 +31,14 @@ export default function Nav({ howItWorksRef, contributeRef }) {
           </div>
           <div className="flex items-center justify-center flex-1 sm:items-stretch sm:justify-start">
             <div className="flex items-center shrink-0">
-              <img
-                alt="Where My Ip"
-                src="/images/app-logo.png"
-                className="w-auto h-10"
-              />
+              <a href="/">
+                <img
+                  alt="WhereMyIp"
+                  src="/images/app-logo.png"
+                  className="w-auto h-10"
+                />
+              </a>
+              
             </div>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">

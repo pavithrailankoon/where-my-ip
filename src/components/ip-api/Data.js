@@ -7,6 +7,7 @@ const FIELDS = "status,message,continent,continentCode,country,countryCode,regio
 export const searchIP = async (query) => {
     try {
         const response = await axios.get(`${API_URL}/${query}?fields=${FIELDS}`);
+        console.log("Fetched IP data:", response.data);
         return response.data;
     } catch (error) {
         console.error("Error fetching search result: ",error);

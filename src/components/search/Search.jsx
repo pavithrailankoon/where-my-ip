@@ -1,32 +1,37 @@
 import React, { useState } from 'react';
 import { AnimatedBackground } from 'animated-backgrounds';
 
-export default function Search({onSubmit}) {
+export default function Search({onSubmit, infoRef}) {
     const [query, setQuery] = useState("");
     const [error, setError] = useState("");
+
+    const handleScroll = (sectionRef) => {
+        sectionRef.current?.scrollIntoView({behavior: "smooth"});
+      };
     
     // Handle query change
     const handleQueryChange = (e) => {
         setQuery(e.target.value);
     };
 
-    // Validate input and extract domain if necessary
     const validateInput = (input) => {
         const ipv4Pattern = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
         const ipv6Pattern = /^([0-9a-fA-F]{1,4}:){7}([0-9a-fA-F]{1,4}|:)$/;
-        const urlPattern = /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)(\/[\w-]*)*$/;
-
-        if (ipv4Pattern.test(input)) {
-            return input; // Valid IPv4
-        } else if (ipv6Pattern.test(input)) {
-            return input; // Valid IPv6
-        } else if (urlPattern.test(input)) {
-            const url = new URL(input.startsWith('http') ? input : `http://${input}`);
-            return url.hostname; // Extract domain from URL
-        } else {
+    
+        try {
+            if (ipv4Pattern.test(input)) {
+                return input; // Valid IPv4
+            } else if (ipv6Pattern.test(input)) {
+                return input; // Valid IPv6
+            } else {
+                const url = new URL(input.startsWith('http') ? input : `http://${input}`);
+                return url.hostname; // Extract domain (hostname)
+            }
+        } catch (error) {
             return null; // Invalid input
         }
     };
+    
 
       //Handle form submission
       const handleSubmit = (e) => {
@@ -60,10 +65,10 @@ export default function Search({onSubmit}) {
                             type="text" />
                         <button 
                             type="submit"
-                            className="inline-flex items-center justify-center w-full px-4 py-2 mt-3 font-medium text-white bg-gray-800 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                            
-                                    Search
-                            
+                            className="inline-flex items-center justify-center w-full px-4 py-2 mt-3 font-medium text-white bg-gray-800 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                            onClick={() => handleScroll(infoRef)}
+                            >
+                                Search
                         </button>
                     </form>
                 </div>

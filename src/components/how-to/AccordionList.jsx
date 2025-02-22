@@ -50,7 +50,7 @@ export function AccordionList({sectionRef}) {
     <div className="bg-white"  ref={sectionRef}>
       <div className="w-full max-w-6xl p-10 mx-auto">
         <div className="text-3xl text-center font-QuicksandLight">
-          <h3>How does it work?</h3>
+          <h3>Frequently Asked Questions</h3>
         </div>
         <div className="">
           <Accordian value={null}>

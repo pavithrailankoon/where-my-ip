@@ -9,6 +9,7 @@ import { FaArrowUp } from "react-icons/fa";
 function App() {
   const howItWorksRef = useRef(null);
   const contributeRef = useRef(null);
+  const infoRef = useRef(null);
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [text, setText] = useState("");
       
@@ -37,8 +38,8 @@ function App() {
   return (
     <div className="App">
        <Nav howItWorksRef={howItWorksRef} contributeRef={contributeRef}/> 
-       <Search onSubmit={handleTextSubmit}/>
-       <MainPane text={text} />
+       <Search onSubmit={handleTextSubmit} infoRef={infoRef}/>
+       <MainPane text={text} sectionRef={infoRef}/>
        <AccordionList sectionRef={howItWorksRef}/>
        <Footer sectionRef={contributeRef}/>
 
