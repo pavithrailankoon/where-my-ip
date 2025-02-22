@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = "https://ip-api.com/json/";
+const API_URL = "http://ip-api.com/json/";
 const FIELDS = "status,message,continent,continentCode,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,offset,currency,isp,org,as,asname,reverse,mobile,proxy,hosting,query";
 
 //Search any IP or domain
